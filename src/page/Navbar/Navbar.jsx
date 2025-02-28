@@ -17,6 +17,8 @@ import Sidebar from "./Sidebar";
 
 
 const Navbar = () => {
+
+  const {auth} = useSelect(store => store)
   return (
     <div
       className="px-2 py-3 border-b z-50 bg-background bg-opacity-0
@@ -72,7 +74,7 @@ const Navbar = () => {
       <div>
         <Avatar>
           <AvatarFallback>
-            Z
+            {auth.user?.fullName[0].toUpperCase()}
           </AvatarFallback>
         </Avatar> 
       </div> 

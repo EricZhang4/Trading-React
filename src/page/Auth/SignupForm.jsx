@@ -1,6 +1,9 @@
 import React from "react";
 
 const SignupForm = () => {
+
+  const dispatch = useDispatch()
+  
   const form = useForm({
     resolver: "",
     defaultValues: {
@@ -10,6 +13,11 @@ const SignupForm = () => {
       password: "",
     },
   });
+  const onSubmit = (data) => {
+    dispatch(register(data))
+    console.log(data);
+  };
+  
   return (
     <div>
         <h1 className = "text-xl font-bold text-center pb-3">Create New Account</h1>

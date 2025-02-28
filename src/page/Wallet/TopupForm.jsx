@@ -4,17 +4,18 @@ const TopupForm = () => {
 
     const [amount, setAmount] = React.useState('')
     const [paymentMethod, setPaymentMethod] = React.useState('RAZORPAY')
-    
+    const dispatch = useDispatch();
+
     const handlePaymentMethodChange = (value) => {
         setPaymentMethod(value)
     }
-    
     const handleChange = (e) => {
         setAmount(e.target.value)
     }
 
     const handleSubmit = () => {
         console.log(amount, paymentMethod);
+        dispatch(paymentHandler({jwt:localStorage.getItem("jwt"), paymentMethod, amount}))
     }
     
   return (
@@ -56,4 +57,4 @@ const TopupForm = () => {
   )
 }
 
-export default TopupForm
+export default TopupForm;

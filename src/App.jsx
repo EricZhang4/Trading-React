@@ -27,11 +27,19 @@ import Home from "./page/Home/Home";
 import "./App.css";
 
 function App() {
+
+  const {auth} = useSelector(store => store);
+  const dispatch = useDispatch();
+  
+  console.log(" auth ---- ", auth)
+  
+  useEffect(() => {
+    dispatch(getUser(auth.jwt || localStorage.getItem("jwt")))
+  },[auth.jwt])
+
   return (
     <>
-      <Auth/>
-      
-      {true && <div>
+      {auth.user ? <div>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -46,7 +54,7 @@ function App() {
           <Route path="/search" element={<SearchCoin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>}
+      </div> : <Auth /> }
     </>
   );
 }

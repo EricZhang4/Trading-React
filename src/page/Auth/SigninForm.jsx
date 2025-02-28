@@ -8,6 +8,10 @@ import { FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 
 const SigninForm = () => {
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+
   const form = useForm({
     resolver: "",
     defaultValues: {
@@ -17,6 +21,7 @@ const SigninForm = () => {
   });
 
   const onSubmit = (data) => {
+    dispatch(login({data, navigate}))
     console.log(data);
   };
   return (

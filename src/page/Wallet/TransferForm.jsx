@@ -2,11 +2,15 @@ import React from 'react'
 
 const TransferForm = () => {
 
-    const [FormData, setFormData] = React.useState({
+    const dispatch = useDispatch();
+    const {wallet} = useSelector(store => store);
+
+    const [formData, setFormData] = React.useState({
         amount: '',
         walletId: '',
         purpose: '',
     })
+    
     
     
     const handleChange = (e) => {
@@ -14,7 +18,15 @@ const TransferForm = () => {
     }
     
     const handleSubmit = () => {
-        console.log(FormData);
+        dispatch(transferMoney({
+            jwt:locationStorage.getItem('jwt'),
+            walletId: formData.walletId,
+            reqData: {
+                amount: formData.amount,
+                purpose: formData.purpose,
+            }
+        }))
+        console.log(formData);
     }
     
   return (

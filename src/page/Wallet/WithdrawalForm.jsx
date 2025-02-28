@@ -3,7 +3,9 @@ import React from 'react'
 const WithdrawalForm = () => {
 
     const [amount, setAmount] = React.useState('');
-    
+    const dispatch = useDispatch();
+    const {wallet} = useSelector(store => store);
+
     const handleChange = (e) => {
         setAmount(e.target.value);
     };
@@ -11,6 +13,11 @@ const WithdrawalForm = () => {
     const handleSubmit = () => {
         console.log(amount);
     };
+    
+    const handleFetchWalletTransaction = () => {
+        dispatch(getWalletTransactions({jwt: localStorage.getItem("jwt")}))
+    }
+
   return (
     <div className = 'pt-10 space-y-5'>
         <div className = 'flex justify-between items-center rounded-md bg-slate-900 text-xl font-bold px-5 py-4'>

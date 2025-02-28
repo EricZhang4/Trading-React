@@ -3,8 +3,36 @@ import React from 'react'
 
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
 
-
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 const Wallet = () => {
+
+  const dispatch = useDispatch()
+  const { wallet } = useSelector(store => store)
+  const query = useQuery()
+  const orderId = query.get('order_id');
+  const paymentId = query.get('payment_id');
+  const razorpayPaymentId = query.get('razorpay_payment_id')
+  const navigate = useNavigate()
+  
+  useEffect(() => {
+    handleFetchUserWallet();
+    handleFetchWalletTransaction();
+  }, []);
+
+  useEffect(() => {
+    if (orderId){
+      dispatch(depositMoney({jwt: localStorage.getItem("jwt"), 
+        orderId,
+        paymentId: razorpayPaymentId || paymentId, navigate
+      }))
+    }
+  }, [orderId, paymentId, razorpayPaymentId])
+  
+  const handleFetchUserWallet = () => {
+    dispatch(getUserWallet(localStorage.getItem("jwt")))
+  }
   return (
     <div className = "flex flex-col items-center">
       <div className = "pt-10 w-full lg:w-[60%]">
@@ -17,14 +45,14 @@ const Wallet = () => {
                   <CardTitle className = "text-2xl">My Wallet</CardTitle>
                   <div className = "flex items-center gap-2">
                     <p className = "text-gray-200 text-sm">
-                      #A475Ed
+                      ${wallet.userWallet?.id}
                     </p>
                     <CopyIcon size = {12} className = "cursor-pointer hover:text-slate-300"/>
                   </div>
                 </div>
               </div>
               <div>
-                <ReloadIcon className = "w-6 h-6 cursor-pointer hover:text-gray-400"/>
+                <ReloadIcon onClick = {handleFetchUserWallet} className = "w-6 h-6 cursor-pointer hover:text-gray-400"/>
               </div>
             </div>
             
@@ -33,7 +61,7 @@ const Wallet = () => {
             <div className = "flex items-center">
               <DollarSign/>
               <span className = "text-2xl font-semibold">
-                20000
+                {wallet.userWallet.balance}
               </span>
             </div>
             
@@ -45,8 +73,6 @@ const Wallet = () => {
                     <span className = 'text-sm mt-2'>Add Money</span>
                   </div>
                   
-
-              
                 </DialogTrigger>
 
                 <DialogContent>
@@ -106,23 +132,22 @@ const Wallet = () => {
           
           <div className = "space-y-5">
             
-            
-            {[1,1,1,1,1,1,1].map((item)=><div key = {i}>
+            {wallet.transactions.map((item)=><div key = {i}>
               <Card className = "px-5 flex justify-between items-center p-2">
                 <div className = "flex items-center gap-5">
-                  <Avatar>
+                  <Avatar onClick = {handleFetchWalletTransaction}>
                     <AvatarFallback>
                       <ShuffleIcon className = ""/>
                     </AvatarFallback>
                   </Avatar>
                   
                   <div className = "space-y-1">
-                    <h1>Buy Asset</h1>
-                    <p className = "text-sm text-gray-500">2024-06-02</p>
+                    <h1>{item.type || item.purpose}</h1>
+                    <p className = "text-sm text-gray-500">{item.date}</p>
                   </div>
                 </div>
                 <div>
-                  <p className = {`text-green-500`}>999 USD</p>
+                  <p className = {`text-green-500`}>{item.amount}</p>
                 </div>
               </Card>
             </div>)}

@@ -1,6 +1,8 @@
 import React from "react";
 
 const PaymentDetailsForm = () => {
+
+  const dispatch = useDispatch();
   const form = useForm({
     resolver: "",
     defaultValues: {
@@ -9,6 +11,11 @@ const PaymentDetailsForm = () => {
       accountNumber: "",
     },
   });
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   return (
     <div className="px-10 py-2">
       <Form {...form}>

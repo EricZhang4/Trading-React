@@ -15,6 +15,9 @@ import { Button } from "@/components/ui/button";
 import AccountVerificationForm from "./AccountVerificationForm";
 const Profile = () => {
 
+  const {auth} = useSelector(store => store)
+  
+
   const handleEnableTwoStepVerification = () => {
     console.log("two step verification")
   }
@@ -30,11 +33,11 @@ const Profile = () => {
               <div className="space-y-7">
                 <div className="flex">
                   <p className="w-[9rem]">Email : </p>
-                  <p className="text-gray-500">codewithzosh@gmail.com</p>
+                  <p className="text-gray-500">{auth.user?.email}</p>
                 </div>
                 <div className="flex">
                   <p className="w-[9rem]">Full Name : </p>
-                  <p className="text-gray-500">code with zosh</p>
+                  <p className="text-gray-500">{auth.user?.fullName}</p>
                 </div>
                 <div className="flex">
                   <p className="w-[9rem]">Date of Birth : </p>
@@ -48,11 +51,11 @@ const Profile = () => {
               <div className="space-y-7">
                 <div className="flex">
                   <p className="w-[9rem]"> Address : </p>
-                  <p className="text-gray-500">codewithzosh@gmail.com</p>
+                  <p className="text-gray-500">{auth.user?.email}</p>
                 </div>
                 <div className="flex">
                   <p className="w-[9rem]">City : </p>
-                  <p className="text-gray-500">code with zosh</p>
+                  <p className="text-gray-500">{auth.user?.fullName}</p>
                 </div>
                 <div className="flex">
                   <p className="w-[9rem]">Postcode : </p>
